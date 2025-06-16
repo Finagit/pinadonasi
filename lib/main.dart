@@ -33,12 +33,10 @@ class HomePage extends StatelessWidget {
     {
       'name': 'Yayasan Anak Yatim',
       'location': 'Surabaya',
-      'image': 'https://source.unsplash.com/featured/?charity',
     },
     {
       'name': 'Masjid Al-Falah',
       'location': 'Sidoarjo',
-      'image': 'https://donasi.matsaratulhuda.net/campaign/pembangunan-masjid',
     },
   ];
 
