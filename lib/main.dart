@@ -1,8 +1,13 @@
-import 'donation_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'donation_page.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init(); // Inisialisasi notifikasi
   runApp(const DonasiApp());
 }
 
@@ -89,9 +94,12 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Donasi & Sedekah'),
+         style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.teal,
-        foregroundColor: Colors.white,
+        elevation: 4,
+        foregroundColor: Colors.black54
       ),
       body: ListView.builder(
         itemCount: lembagaList.length,
@@ -140,6 +148,7 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                           onPressed: () {
+                            showNotification();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -158,5 +167,38 @@ class HomePage extends StatelessWidget {
         },
       ),
     );
+  }
+}
+// Fungsi untuk menampilkan notifikasi lokal
+Future<void> showNotification() async {
+  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+    'donasi_channel',
+    'Donasi Notifikasi',
+    channelDescription: 'Notifikasi untuk simulasi donasi',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+
+  const NotificationDetails notifDetails =
+      NotificationDetails(android: androidDetails);
+
+  await flutterLocalNotificationsPlugin.show(
+    0,
+    'Ayo Berdonasi!',
+    'Ingatkan kebaikan dengan sedekah hari ini 😊',
+    notifDetails,
+  );
+}
+
+// Kelas untuk inisialisasi notifikasi
+class NotificationService {
+  Future<void> init() async {
+    const AndroidInitializationSettings androidInit =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    const InitializationSettings settings =
+        InitializationSettings(android: androidInit);
+
+    await flutterLocalNotificationsPlugin.initialize(settings);
   }
 }

@@ -9,7 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    flutter_local_notifications: ^17.0.0
+  cupertino_icons: ^1.0.8
+  flutter_local_notifications: ^17.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -20,8 +22,9 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/cover.jpg
     - assets/images/masjid_alhuda.jpg
     - assets/images/yayasan_yatim.jpg
     - assets/images/masjid_alfalah.jpg
-    - assets/images/cover.jpg
+    
     
