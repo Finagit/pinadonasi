@@ -69,6 +69,10 @@ class _HomePageState extends State<HomePage> {
               itemCount: lembagaList.length,
               itemBuilder: (context, index) {
                 final lembaga = lembagaList[index];
+                final image = lembaga['image']??'';
+                final name = lembaga ['name']??'';
+                final location = lembaga ['location']??'';
+    
                 return Card(
                  margin: const EdgeInsets.only(bottom: 20),
                   shape: RoundedRectangleBorder(
@@ -81,10 +85,12 @@ class _HomePageState extends State<HomePage> {
                       ClipRRect(
                         borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                         child: Image.network(
-                          lembaga['image'],
+                          image,
                           height: 180,
                           width: double.infinity,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const SizedBox(height: 180, child: Center(child: Icon(Icons.broken_image))),
                         ),
                       ),
                       Padding(
