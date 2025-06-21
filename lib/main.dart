@@ -1,4 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import 'home_page.dart';
+import 'donation_page.dart'; // pastikan kamu punya file ini
+
+
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -9,23 +15,23 @@ void main() async {
   runApp(const DonasiApp());
 }
 
-class DonasiApp extends StatelessWidget {
+ class DonasiApp extends StatelessWidget {
   const DonasiApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Donasi & Sedekah',
+      title: 'Pinadonasi',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         useMaterial3: true,
-        fontFamily: 'Poppins',
       ),
-      home: const SplashScreen(),
+      home: const SplashScreen(), // atau langsung HomePage()
     );
   }
 }
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

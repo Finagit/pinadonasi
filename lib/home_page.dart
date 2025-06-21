@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
-import 'donation_page.dart'; agar bisa akses NotificationService
+import 'dart:convert';
+
+import 'donation_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,22 +22,31 @@ class _HomePageState extends State<HomePage> {
     fetchLembaga();
   }
 
+  
   Future<void> fetchLembaga() async {
-    final response = await http.get(
-      Uri.parse('https://mocki.io/v1/a13a6f01-becd-4b57-86b9-f9e68880c65b'), // ganti ke URL API kamu
-        );
-        if (response.statusCode == 200) {
+    try {
+      final response = await http.get(
+        Uri.parse('https://mocki.io/v1/a13a6f01-becd-4b57-86b9-f9e68880c65b'),
+      );
+      if (response.statusCode == 200) {
+        final List data = json.decode(response.body);
         setState(() {
-            lembagaList = json.decode(response.body);
-            isLoading = false;
+          lembagaList = List<Map<String, dynamic>>.from(data);
+          isLoading = false;
         });
-        } else {
+      } else {
         setState(() {
-            isLoading = false;
+          isLoading = false;
         });
         throw Exception('Gagal memuat data lembaga');
-        }
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+      debugPrint('Error: $e');
     }
+  }
 
   @override
   Widget build(BuildContext context) {
