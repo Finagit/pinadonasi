@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'donation_card.dart';
 import 'donation_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, String>> lembagaList = [];
+ List<Map<String, dynamic>> lembagaList = [];
   bool isLoading = true;
 
   @override
@@ -93,13 +94,13 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(height: 180, child: Center(child: Icon(Icons.broken_image))),
                         ),
                       ),
-                      Padding(
+                        Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              lembaga['name'],
+                              name,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Lokasi: ${lembaga['location']}',
+                              'Lokasi: $location',
                               style: const TextStyle(color: Colors.grey),
                             ),
                             const SizedBox(height: 12),
@@ -122,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => DonationPage(name: lembaga['name']),
+                                    builder: (_) => DonationPage(name: name),
                                   ),
                                 );
                               },
