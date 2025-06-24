@@ -2,103 +2,78 @@ import 'package:flutter/material.dart';
 
 class DonationDetailPage extends StatelessWidget {
   final String name;
-  final String location;
-  final String imagePath;
-  final int amount;
-  final String paymentMethod;
+  final String nominal;
+  final String metode;
+  final String danaNumber;
+  final String bankAccount;
+  final String transferImage;
 
   const DonationDetailPage({
     super.key,
     required this.name,
-    required this.location,
-    required this.imagePath,
-    required this.amount,
-    required this.paymentMethod,
+    required this.nominal,
+    required this.metode,
+    required this.danaNumber,
+    required this.bankAccount,
+    required this.transferImage,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F3F7),
       appBar: AppBar(
+        title: const Text('Detail Donasi'),
         backgroundColor: Colors.teal,
         foregroundColor: Colors.white,
-        elevation: 0,
-        title: const Text("Detail Donasi", style: TextStyle(fontFamily: 'Poppins')),
-        centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(imagePath, height: 180, width: double.infinity, fit: BoxFit.cover),
-            ),
-            const SizedBox(height: 20),
-            Text(name,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
-                )),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                const Icon(Icons.location_on_outlined, color: Colors.grey),
-                const SizedBox(width: 4),
-                Text(location, style: const TextStyle(color: Colors.grey)),
-              ],
-            ),
-            const Divider(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Nominal Donasi:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                Text("Rp $amount", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Metode Pembayaran:", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                Text(paymentMethod, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              ],
-            ),
-            const Spacer(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      title: const Text("Donasi Berhasil", style: TextStyle(fontFamily: 'Poppins')),
-                      content: Text("Terima kasih telah berdonasi ke $name!"),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
-                          child: const Text("OK"),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.favorite, color: Colors.white),
-                label: const Text("Konfirmasi Donasi", style: TextStyle(fontSize: 16)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  elevation: 4,
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Donasi untuk: $name',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              Text('Nominal: Rp $nominal', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              Text('Metode Pembayaran: $metode', style: const TextStyle(fontSize: 16)),
+              const SizedBox(height: 8),
+              Text(
+                metode == 'DANA' ? 'No. DANA: $danaNumber' : 'No. Rekening: $bankAccount',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+              const Text('Bukti Transfer:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
+              Center(
+                child: Image.asset(
+                  transferImage,
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) =>
+                      const Icon(Icons.broken_image, size: 100),
                 ),
               ),
-            )
-          ],
+              const SizedBox(height: 24),
+              Center(
+                child: ElevatedButton.icon(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.check),
+                  label: const Text('Selesai'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

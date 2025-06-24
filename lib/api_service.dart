@@ -1,0 +1,56 @@
+import 'dart:convert';
+
+class ApiService {
+  // Simulasi fetch data lembaga dari API (statis)
+  static Future<List<Map<String, dynamic>>> fetchLembagaList() async {
+    await Future.delayed(const Duration(seconds: 1)); // simulasi loading
+
+    const jsonString = '''
+    [
+      {
+        "name": "Masjid Al-Huda",
+        "location": "Pamekasan",
+        "image": "assets/images/masjid_alhuda.jpg",
+        "dana_number": "081234567890",
+        "bank_account": "1234567890 (BNI)",
+        "transfer_image": "https://via.placeholder.com/150?text=Transfer+Al-Huda"
+      },
+      {
+        "name": "Yayasan Anak Yatim",
+        "location": "Surabaya",
+        "image": "assets/images/yayasan_yatim.jpg",
+        "dana_number": "081222333444",
+        "bank_account": "2345678901 (Mandiri)",
+        "transfer_image": "https://via.placeholder.com/150?text=Transfer+Yatim"
+      },
+      {
+        "name": "Masjid Al-Falah",
+        "location": "Sidoarjo",
+        "image": "assets/images/masjid_alfalah.jpg",
+        "dana_number": "081333444555",
+        "bank_account": "3456789012 (BRI)",
+        "transfer_image": "https://via.placeholder.com/150?text=Transfer+Falah"
+      },
+      {
+        "name": "Yayasan Nurul Hikmah",
+        "location": "Sumenep",
+        "image": "assets/images/yayasan_nurul_hikmah.jpg",
+        "dana_number": "081917510329",
+        "bank_account": "4567890123 (BCA)",
+        "transfer_image": "https://via.placeholder.com/150?text=Transfer+Nurul+Hikmah"
+      },
+      {
+        "name": "Panti Asuhan Al-Falah",
+        "location": "Bangkalan",
+        "image": "assets/images/panti_asuhan_alfalah.jpg",
+        "dana_number": "081567891234",
+        "bank_account": "5678901234 (BSI)",
+        "transfer_image": "https://via.placeholder.com/150?text=Transfer+Al-Falah"
+      }
+    ]
+    ''';
+
+    final List<dynamic> data = json.decode(jsonString);
+    return data.cast<Map<String, dynamic>>();
+  }
+}
