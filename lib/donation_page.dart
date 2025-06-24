@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'donation_detail_page.dart';
 
 class DonationPage extends StatefulWidget {
   final String name;
@@ -59,8 +60,15 @@ class _DonationPageState extends State<DonationPage> {
                   labelText: "Nominal Donasi",
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? "Masukkan nominal" : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Masukkan nominal donasi";
+                  }
+                  if (int.tryParse(value) == null) {
+                    return "Masukkan angka yang valid";
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               DropdownButtonFormField<String>(
@@ -78,21 +86,35 @@ class _DonationPageState extends State<DonationPage> {
                     child: Text("E-Wallet"),
                   ),
                   DropdownMenuItem(
+                    value: "DANA",
+                    child: Text("DANA")
+                  ),
+                  DropdownMenuItem(
                     value: "QRIS",
                     child: Text("QRIS"),
                   ),
                 ],
-                onChanged: (value) => setState(() => _metodePembayaran = value),
+                onChanged: (value) {
+                  setState(() {
+                    _metodePembayaran = value;
+                  });
+                },
                 validator: (value) =>
                     value == null ? "Pilih metode pembayaran" : null,
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
+               const SizedBox(height: 20),
+              ElevatedButton.icon(
                 onPressed: _submitDonasi,
+                icon: const Icon(Icons.send),
+                label: const Text("Kirim Donasi"),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
-                child: const Text("Kirim Donasi"),
               )
             ],
           ),

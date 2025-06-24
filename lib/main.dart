@@ -91,7 +91,22 @@ class HomePage extends StatelessWidget {
     'location': 'Sidoarjo',
     'image': 'assets/images/masjid_alfalah.jpg',
   },
-];
+  {
+      'name': 'Yayasan Nurul Hikmah',
+      'location': 'Sumenep',
+      'image': 'assets/images/yayasan_nurul_hikmah.jpg'
+    },
+     {
+      'name': 'Panti Asuhan Al-Falah',
+      'location': 'Bangkalan',
+      'image': 'assets/images/panti_asuhan_alfalah.jpg'
+    },
+    {
+      'name': 'Yayasan Nurul Hikmah',
+      'location': 'Sumenep',
+      'image': 'assets/images/yayasan_nurul_hikmah.jpg'
+    }, 
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

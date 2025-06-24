@@ -24,7 +24,37 @@ class DonationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(imagePath, height: 180, width: double.infinity, fit: BoxFit.cover),
+          Stack(
+            children: [
+              // Background image
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                child: Image.asset(
+                  'assets/images/background_texture.jpg', // background image
+                  height: 180,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // Foreground (gambar utama lembaga donasi)
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  topRight: Radius.circular(16),
+                ),
+                child: Image.asset(
+                  imagePath, // gambar masjid/yayasan
+                  height: 180,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
+
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

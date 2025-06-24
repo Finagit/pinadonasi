@@ -1,9 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'donation_card.dart';
 import 'donation_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,129 +9,145 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
- List<Map<String, dynamic>> lembagaList = [];
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchLembaga();
-  }
-
-  
-  Future<void> fetchLembaga() async {
-    try {
-      final response = await http.get(
-        Uri.parse('https://mocki.io/v1/a13a6f01-becd-4b57-86b9-f9e68880c65b'),
-      );
-      if (response.statusCode == 200) {
-        final List data = json.decode(response.body);
-        setState(() {
-          lembagaList = List<Map<String, dynamic>>.from(data);
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        throw Exception('Gagal memuat data lembaga');
-      }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-      debugPrint('Error: $e');
-    }
-  }
+  final List<Map<String, dynamic>> lembagaList = [
+    {
+      'name': 'Masjid Al-Huda',
+      'location': 'Pamekasan',
+      'image': 'assets/images/masjid_alhuda.jpg'
+    },
+    {
+      'name': 'Masjid Al-falah',
+      'location': 'Sidoarjo',
+      'image': 'assets/images/masjid_al_falah.jpg'
+    },
+    {
+      'name': 'Yayasan Nurul Hikmah',
+      'location': 'Sumenep',
+      'image': 'assets/images/yayasan_nurul_hikmah.jpg'
+    },
+    {
+      'name': 'Panti Asuhan Al-Falah',
+      'location': 'Bangkalan',
+      'image': 'assets/images/panti_asuhan_alfalah.jpg'
+    },
+    {
+      'name': 'Yayasan anak yatim ',
+      'location': 'surabaya ',
+      'image': 'assets/images/yayasan_yatim.jpg'
+    },
+     {
+      'name': 'Panti Asuhan Al-Falah',
+      'location': 'Bangkalan',
+      'image': 'assets/images/panti_asuhan_alfalah.jpg'
+    },
+    
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-            'Donasi & Sedekah',
-           style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+          'Donasi & Sedekah',
+          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: Colors.teal,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/background.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
         elevation: 4,
         foregroundColor: Colors.black54,
       ),
-      backgroundColor: const Color(0xFFF2F3F7),
-      body: isLoading
-           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: lembagaList.length,
-              itemBuilder: (context, index) {
-                final lembaga = lembagaList[index];
-                final image = lembaga['image']??'';
-                final name = lembaga ['name']??'';
-                final location = lembaga ['location']??'';
-    
-                return Card(
-                 margin: const EdgeInsets.only(bottom: 20),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                     elevation: 3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                        child: Image.network(
-                          image,
-                          height: 180,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const SizedBox(height: 180, child: Center(child: Icon(Icons.broken_image))),
-                        ),
-                      ),
-                        Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              name,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Lokasi: $location',
-                              style: const TextStyle(color: Colors.grey),
-                            ),
-                            const SizedBox(height: 12),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.teal,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => DonationPage(name: name),
-                                  ),
-                                );
-                              },
-                              child: const Text('Donasi Sekarang'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background.jpg',
+              fit: BoxFit.cover,
             ),
+          ),
+          ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: lembagaList.length,
+            itemBuilder: (context, index) {
+              final lembaga = lembagaList[index];
+              final image = lembaga['image'] ?? '';
+              final name = lembaga['name'] ?? '';
+              final location = lembaga['location'] ?? '';
+
+              return Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                      child: Image.network(
+                        image,
+                        height: 180,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            const SizedBox(
+                          height: 180,
+                          child: Center(child: Icon(Icons.broken_image)),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Lokasi: $location',
+                            style: const TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => DonationPage(name: name),
+                                ),
+                              );
+                            },
+                            child: const Text('Donasi Sekarang'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
